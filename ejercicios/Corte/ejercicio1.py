@@ -28,7 +28,7 @@ def FormatoImpresionProducto(llave,valor,unidades):
 
 def RevisarProfuctos():
   productoBuscado=input("nombre del producto: ")
-  if productoBuscado is productos:
+  if productoBuscado in productos:
     print(FormatoImpresionProducto(productos.key(productoBuscado),productos.values(productoBuscado)))
   else:
     print("producto no encontrado")
