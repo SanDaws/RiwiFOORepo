@@ -24,33 +24,38 @@ def MenuInicial():
     elif decision == 'S' or decision=='s':#salir
       quit()
     else:
-        print("Opcion no valida")
-        MenuInicial()
-        
+      print("Opcion no valida")
+      MenuInicial()
 ######################################################################
 #utilidades
 
 #volver la menu
 def volverAMenu():
+  #vuelve alla funcion menu inicial
   print("""volviendo al menu principal
         --------------------------
         """)
   MenuInicial()
   
 def RevisarEnInventario(nombreProducto):
+  #revisa si un numero pertenece a ese espacio
     if nombreProducto in inventario:#revision si el producto ya existe
       return 1
     else:
       return 0
+    
 
 def IngresoNombreProducto():
   #busqueda del producto retorna el mismo nombre para almacenarlo
+  #permite tambien regresar a la funcion menu inicio al escribir r o R
   nombreProducto=input("Nombre del producto: ")#ingreso del primer prompt
   if nombreProducto== 'R' or nombreProducto=='r':#instruccion para volver
     volverAMenu()
-  return nombreProducto
+  else:
+    return nombreProducto
   
 def formatoImpresionElemento(item,unidades,precio):
+  #retorna un formato estructurado de impresion de un producto
   formatoImpresion="""{}\t{}\t\t{}""".format(item,unidades,precio)
   return formatoImpresion
   
@@ -105,7 +110,7 @@ def BuscarElemento():
 una vez iniciado el proceso debe completarlo""")
   nombreProducto=IngresoNombreProducto()
   if RevisarEnInventario(nombreProducto)==0:
-    print("404:Product Not Found")
+    print("404:Product Not Found")#mensaje de no encontrado
     BuscarElemento()
   print("Nombre\tunidades\tprecio($)")
   print(formatoImpresionElemento(nombreProducto,inventario[nombreProducto][0],inventario[nombreProducto][1]),'\n')
@@ -115,7 +120,7 @@ una vez iniciado el proceso debe completarlo""")
 def ImprimirInventario():
   print("Nombre\tunidades\tprecio($)")
   for item in inventario:
-    print(formatoImpresionElemento(item,inventario[item][0],inventario[item][1]))
+    print(formatoImpresionElemento(item,inventario[item][0],inventario[item][1]))#impresion bajo formato
   print(' para volver al menu escriba R')
   IngresoNombreProducto()
 #main
