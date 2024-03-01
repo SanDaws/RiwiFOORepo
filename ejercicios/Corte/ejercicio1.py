@@ -31,7 +31,7 @@ def RevisarProfuctos():
     
 ###################################################################################
 #espacio para los formatos de impresion usados
-def FormatoImpresionProductoValor(llave,valor):
+def FormatoImpresionProductoValor(llave,valor):#recibe 2 cadenas de datos
   #Retorna un string con el nombre de un producto y su valor
   formatoImpresion = """ 
   producto:
@@ -100,32 +100,64 @@ def Facturacion():
 #proceso de check final antes de pagar
 def CheckCompra():
   print("""-------------------------------
-        Check in""")
-  SumatoriaTotal(productosFacturados)
+        Check in
+  """)
+  
 
 
 
 def descuentos(compra,elementos):#entra el tamaño del diccionario(elementos) y el valor calculado del total(compra)
   #supongamos que no medimos la cantidad de productos por cantidad de productos diferentes y no por cantidad de unidades compradas
-  if elementos==1 and compra<=500000:
-    return compra/(1.19)
+ sing=''
+ if elementos==1 and compra<=500000:
+    sing='19%'
+    return compra/(1.19),sing
+
   if elementos>=3 and elementos<5:
-    return compra
+    sing='5%'
+    return compra/(1.05),sing
+  elif elementos>=5 and elementos<7:
+    sing='10%'
+    return compra/(1.10),sing
+  elif elementos>7:
+    sing='cupon por $100.000'
+    return compra*1,sing
+  
+  
 def SumatoriaTotal(ProductosComprados:dict):#recibe el diccionario con todos los elementos comprados
   #multiplica unidades * precio y suma y envia a revisar el descuento
   total=0
-  lisPrecioCantidad=ProductosComprados.values()
-  total+=CantidadPorPrecio(lisPrecioCantidad[0],lisPrecioCantidad[1])
+  for item in ProductosComprados.values():
+    total+=CantidadPorPrecio(item[0],item[1])
   return total
+def SumatoriaSubtotal(precio,cantidad):
+  total=0
+  total+=CantidadPorPrecio(cantidad,precio)
+  #recibe un diccionario de la siguiente forma: dic[key][punto del arreglo]
+  total,descuento=descuentos(total,len(productosFacturados))
+  return total,descuento
 def CantidadPorPrecio(cantidad,precio):
+  #retorna la multiplicacion de todo
   return cantidad*precio
 
-
 def ImprimirFactura():
+  #formato simple, se puede hacer mas optimo haciendo una funcion de recorrido de sumatoria y total pero ya estoy cansado
   factura="""--Riwimercado--
 {info}
-{productosComprados} {subtotal}
-""".format(info=FormatoImpresionPersona(DatosPersonalesUsuario.nombrecompleto,DatosPersonalesUsuario.cedula), productosComprados=FormatoImpresionProductoValor(),subtotal=CantidadPorPrecio())
+""".format(info=FormatoImpresionPersona(DatosPersonalesUsuario.nombrecompleto,DatosPersonalesUsuario.cedula))
+  print(factura)
+  # ex: pan  5000 2 
+  factura="""{producto}   subtotal{subtotal}"""
+  for item in productosFacturados:
+    print(factura.format(FormatoImpresionProducto(item,productosFacturados[item][0],productosFacturados[item][1])), SumatoriaSubtotal(productosFacturados[item][0],productosFacturados[item][1]))
+    total,descuento=SumatoriaTotal(productosFacturados)
+  factura="""Descuento................................:{}
+  Total................................:{}""".format(total, descuento)
+  print(factura)
+
+
+  
+
 
 
 #iniciando
