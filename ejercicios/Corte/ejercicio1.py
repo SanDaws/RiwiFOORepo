@@ -154,6 +154,8 @@ def ImprimirFactura():
   factura="""Descuento................................:{}
   Total................................:{}""".format(total, descuento)
   print(factura)
+  print("gracias por su compra")
+  MenuTienda()
 
 
   
