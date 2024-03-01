@@ -2,14 +2,15 @@
 inventario={'pan':[2,1000],'queso':[5,200]}
 #formato: {'nombre':[unidades,precio],...}
 def MenuInicial():
-    print("""Riwinventario:
-          Escriba una de las siguientes opciones:
-          Agregar un nuevo producto: 1
-          eliminar un producto: 2
-          actualizar informacion de un producto: 3
-          buscar  un producto: 4
-          imprimir todo el inventario: 5
-          salir: S""")
+    print("""
+          \t\tRiwinventario:
+          Escriba una de las siguientes opciones
+          1: Agregar un nuevo producto
+          2: eliminar un producto
+          3: actualizar informacion de un producto
+          4: buscar  un producto
+          5: imprimir todo el inventario
+          S: salir""")
     decision=input("Opcion a la que se dirije: ")
     if decision == '1':#Agregar un nuevo producto
       agregarProduct()
@@ -37,14 +38,15 @@ def volverAMenu():
         """)
   MenuInicial()
   
+#revisar si pertenece al inventario
 def RevisarEnInventario(nombreProducto):
-  #revisa si un numero pertenece a ese espacio
+  #revisa si un numero pertenece a el inventario:
     if nombreProducto in inventario:#revision si el producto ya existe
       return 1
     else:
       return 0
     
-
+#retorno a menu incial o devuelve un elemento
 def IngresoNombreProducto():
   #busqueda del producto retorna el mismo nombre para almacenarlo
   #permite tambien regresar a la funcion menu inicio al escribir r o R
@@ -53,7 +55,7 @@ def IngresoNombreProducto():
     volverAMenu()
   else:
     return nombreProducto
-  
+#formato de impresion elementos dentro del diccionario
 def formatoImpresionElemento(item,unidades,precio):
   #retorna un formato estructurado de impresion de un producto
   formatoImpresion="""{}\t{}\t\t{}""".format(item,unidades,precio)
